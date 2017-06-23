@@ -84,22 +84,41 @@
             var loaded = 0;
             var load = 0;
             var root = 'http://jsonplaceholder.typicode.com';
-            
-            function loadPosts(){
+            var max = 0;
+
+            $.ajax({
+                url: root + '/posts/',
+                method: 'GET',
+            }).then(function(data) {
+                max = data.length;
+            });
+
+			function loadPosts(){
                 load++;
-                for(i = 1; i <= 10; i++){
-                    $.ajax(root + '/posts/' + (loaded + i), {
-                        method: 'GET'
-                    }).then(function(data){
-                        createPost(data);
-                        
-                        console.log('lol' + (loaded + i));
+
+                loaded = load * 10;
+                console.log(loaded + " SA " + max);
+                //"max == 0" di ko na magawang maalis to jaskdkjkd pero naalis ko siya before,
+                for(i = 1; i <= 10 && (loaded < max || max == 0); i++){
+                    $.ajax({
+                        url: root + '/posts/' + (loaded + i),
+                        method: 'GET',
+                        error: function()
+                        {
+                            //file not exists
+                            console.log("File not exists");
+                        },
+                        success: function(data)
+                        {
+                            createPost(data);
+                        }
                     });
                 }
-                loaded = load * (i-1);
-                console.log(loaded);
+
+                if(loaded == 110)
+                    console.log("SHOW SOMETHING");
             }
-            
+             
             function createPost(data){
                 $.ajax(root + '/users/' + data.userId, {
                     method: 'GET'
@@ -160,19 +179,23 @@
             }
                 
             loadPosts();
-            
+
             $(document).ready(function(){
-                
-//                $(".feed").on('scroll', function(){
-//                    if( $(".feed").scrollTop() > $(".feed").height() - 10) {
-//                        console.log("Load more!");
-//                       loadPosts();
-//                    }
-//                }).scroll();
-                
+                $(".feed").scroll(function() {
+                    var div = $(this);
+                    if (Math.round(div.scrollTop()) == $(".feed")[0].scrollHeight - 600) { //scrollTop is 0 based
+                        console.log("Load more!");
+
+                        var oldHeight =  $(".feed")[0].scrollHeight;
+                        loadPosts();
+                    }
+                });
+
                 $(document).on('click', '.post-username', function(){
                     var test = $(this).attr('id');
                     alert(test);
+                //    window.location.href = "profile.html";
+
                 });
                 
             })
