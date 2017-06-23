@@ -186,7 +186,6 @@
                     if (Math.round(div.scrollTop()) == $(".feed")[0].scrollHeight - 600) { //scrollTop is 0 based
                         console.log("Load more!");
 
-                        var oldHeight =  $(".feed")[0].scrollHeight;
                         loadPosts();
                     }
                 });
