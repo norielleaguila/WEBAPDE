@@ -1,0 +1,173 @@
+            body{
+                font-family: "Tahoma", sans-serif;
+                font-size: 1em;
+            }
+            
+            .profile_feed{
+				border-radius: 10px;
+				width: 600px;
+				height: auto;
+				padding: 20px;
+				background-color: cadetblue;
+                margin: 0 auto;
+                margin-top: 80px;
+                box-shadow: 2px 2px 5px rgba(41, 41, 41, 0.72);
+			}
+			
+			.profile{
+				border-radius: 5px;
+				width: 500px;
+                height: auto;
+				margin: 0 auto;
+				margin-top: 20px;
+				background-color: white;
+				padding: 20px;
+                box-shadow: 2px 2px 5px rgba(41, 41, 41, 0.49);
+                font-family:"Tahoma", sans-serif;
+                font-size: 1em;
+			}
+            
+            a{
+                color: #5a5a5a;
+                text-decoration: none;
+            }
+        
+            .topbar{
+                border-bottom: 2px;
+                border-bottom-style: inset;
+                padding: 0;
+                height: auto;
+                align-content: center;
+            }
+            
+            div.ribbon{
+                position: fixed;
+                margin: 0px auto;
+                width: 100%;
+                top:0px;
+                margin-left:-7px;
+            }
+            
+            .navbar{
+                margin: 1em auto 1em;
+                position:relative;
+                align-self:center;
+                background-color:#fccdbc;
+                width:690px;
+                height:auto;
+                text-align: center;
+            }
+            
+            .navbar:before, .navbar:after {
+                content: "";
+                position: absolute;
+                display: block;
+                bottom: -1em;
+                border: 1.5em solid #880000;
+                z-index: -1;
+            }
+            
+            .navbar:before {
+                left: -2em;
+                border-right-width: 1.5em;
+                border-left-color: transparent;
+            }
+            
+            .navbar:after {
+                right: -2em;
+                border-left-width: 1.5em;
+                border-right-color: transparent;
+            }
+            
+            .navbar .navlinks:before, .navbar .navlinks:after {
+                content: "";
+                position: absolute;
+                display: block;
+                border-style: solid;
+                border-color: #ac9a86 transparent transparent transparent;
+                bottom: -1em;
+            }
+            
+            .navbar .navlinks:before {
+                left: 0;
+                border-width: 1em 0 0 1em;
+            }
+            
+            .navbar .navlinks:after {
+                right: 0;
+                border-width: 1em 1em 0 0;
+            }
+            
+            .navbar a{
+                margin: 0 auto;
+                border: none;
+                padding: 15px 32px;
+                text-align: center;
+                display: inline-block;
+                font-size: 1em;
+            }
+            
+            .navbar a:hover{
+                background-color: #ffbba2;
+                color:white;
+                transform: scale(1.1);
+                transition: all 0.2s ease-in;
+            }
+            
+            .sidebar{
+                position: fixed;
+                width: 240px;
+                right: 5%;
+                top: 20%;
+            }
+            
+            .searchbox{
+                background-color: cadetblue;
+                width:240px;
+                padding: 10px;
+                border-radius: 3px;
+                box-shadow: 2px 2px 5px rgba(41, 41, 41, 0.49);
+            }
+            
+            #search{
+                margin: 0 auto;
+                width: 200px;
+                border-radius: 3px;
+                border-style: none;
+                height: 2em;
+                padding: 5px;
+            }
+            
+            .preview{
+                margin: 0 auto;
+                margin-top: 20px;
+                margin-left: 8px;
+                width: 225px;
+                background-color:#61a4a7;
+                height:210px;
+                border-radius: 10px;
+                position: absolute;
+                z-index: -10;
+                box-shadow: 2px 2px 5px rgba(41, 41, 41, 0.49);
+                padding: 10px;
+            }
+            
+            .photo{
+                width: 100px;
+                height: 100px;
+                background-color: antiquewhite;
+                display: inline-block;
+                margin: 1px;
+                transition: all 0.2s ease-in;
+            }
+            
+            .container{
+                margin: 0 auto;
+                margin-left: 8px;
+            }
+            
+            .photo:hover{
+                box-shadow: 2px 2px 5px rgba(41, 41, 41, 0.49);
+                transform:scale(1.15);
+                transition: all 0.2s ease-in;
+            }

@@ -1,0 +1,85 @@
+<html>
+
+	<head>
+        <link rel="stylesheet"
+              type = "text/css"
+              href="stylesheet_v2.css">
+		<style>
+			.photo-feed{
+				border-radius: 10px;
+				width: 600px;
+				height: auto;
+				padding: 20px;
+				background-color: cadetblue;
+                margin: 0 auto;
+                margin-top: 80px;
+                box-shadow: 2px 2px 5px rgba(41, 41, 41, 0.72);
+                align-content: center;
+			}
+			
+			.photo{
+				border-radius: 5px;
+				width: 150px;
+                height: 150px;
+				margin: 0 auto;
+				margin-top: 20px;
+				background-color: white;
+				padding: 20px;
+                padding-left:26.5px;
+                box-shadow: 2px 2px 5px rgba(41, 41, 41, 0.49);
+                display:inline-block;
+			}
+            
+            .photo:hover{
+                transform: scale(1.1);
+            }
+            
+            .user{
+                text-align: right;
+            }
+            
+            .user a:hover{
+                text-shadow: 2px 2px 5px rgba(41, 41, 41, 0.49);
+                color:dimgrey;
+            }
+
+		</style>
+	
+	</head>
+	
+	<body>
+        <nav class = "navbar">
+            <div class = navitems>
+                <div class = "navlinks">
+                    <a href="index.html">Posts</a>
+                    <a href="#">Photos</a>
+                </div>
+                
+                <div class = "searchbox">
+                    <div id = "searchbar">
+                        <input type="search" id="search" placeholder="Search..." />
+                    </div>
+                </div>
+            </div>
+        </nav>
+        
+	
+		<section class = "photo-feed">
+            <div class=photo></div>
+            <div class=photo></div>
+            <div class=photo></div>
+            <div class=photo></div>
+            <div class=photo></div>
+            <div class=photo></div>
+            <div class=photo></div>
+            <div class=photo></div>
+            <div class=photo></div>
+		</section>
+        
+        <div class="loadmore-box">
+            <div id="loadmore">Load More</div>
+        </div>
+	
+	</body>
+
+</html>

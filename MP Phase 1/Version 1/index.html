@@ -1,0 +1,159 @@
+<html>
+
+	<head>
+        <link rel="stylesheet"
+              type = "text/css"
+              href="stylesheet_v3.css">
+        
+        <script src="jquery-3.2.1.min.js"></script>
+        
+		<style>
+			#post_feed{
+				border-radius: 10px;
+				width: 600px;
+				height: auto;
+				padding: 20px;
+				background-color: cadetblue;
+                margin: 0 auto;
+                margin-top: 80px;
+                box-shadow: 2px 2px 5px rgba(41, 41, 41, 0.72);
+			}
+			
+			.post{
+				border-radius: 5px;
+				width: 500px;
+                height: auto;
+				margin: 0 auto;
+				margin-top: 20px;
+				background-color: white;
+				padding: 20px;
+                box-shadow: 2px 2px 5px rgba(41, 41, 41, 0.49);
+                font-family:"Tahoma", sans-serif;
+                font-size: 1em;
+			}
+            
+            .user{
+                text-align: right;
+            }
+            
+            .user a:hover{
+                text-shadow: 2px 2px 5px rgba(41, 41, 41, 0.49);
+                color:dimgrey;
+            }
+
+		</style>
+            
+        <script>
+            
+            var loaded = 0;
+            var load = 0;
+            var root = 'http://jsonplaceholder.typicode.com';
+            
+            function loadPosts(){
+                load++;
+                for(i = 1; i <= 10; i++){
+                    $.ajax(root + '/posts/' + (loaded + i), {
+                        method: 'GET'
+                    }).then(function(data){
+                        createPost(data);
+                        
+                        console.log('lol' + (loaded + i));
+                    });
+                }
+                loaded = load * (i-1);
+                console.log(loaded);
+            }
+            
+            function createPost(data){
+                $.ajax(root + '/users/' + data.userId, {
+                    method: 'GET'
+                }).then(function(temp){
+                    postItem(data, temp);
+                });
+            }
+            
+            function postItem(data, temp){
+                var t = data.title;
+                var c = data.body;
+                var u = temp.username;
+                
+                //create elements
+                var post = document.createElement("div");
+                var topbar = document.createElement("div");
+                var content = document.createElement("div");
+                var userC = document.createElement("div");
+                var user = document.createElement("a");
+                var title = document.createElement("h3");
+                var body = document.createElement("p");
+                
+                user.setAttribute('href', 'photos.html');
+                
+                //add classes
+                $(post).addClass("post");
+                $(topbar).addClass("topbar");
+                $(content).addClass("content");
+                $(userC).addClass("user");
+                
+                //add values
+                $(title).text(t);
+                $(body).text(c);
+                $(user).text(u);
+                
+                $(topbar).append(title);
+                $(content).append(body);
+                $(userC).append(user);
+                
+                $(topbar).append(content);
+                $(content).append(userC);
+                
+                $(post).append(topbar);
+                $(post).append(content);
+                $(post).append(userC);
+                
+                $("#post_feed").append(post);
+                
+                console.log('loaded = ' + loaded);
+            }
+            
+            $(document).ready(function(){
+                loadPosts();
+                
+                $("#loadmore").click(loadPosts);
+                
+            })
+            
+            
+        </script>
+        
+	</head>
+	
+	<body>
+        <nav class = "navbar">
+            <div class = navitems>
+                <div class = "navlinks">
+                    <a href="#">
+                        Posts
+                    </a>
+                    <a href="photos.html">
+                        Photos
+                    </a>
+                </div>
+                
+                <div class = "searchbox">
+                    <div id = "searchbar">
+                        <input type="search" id="search" placeholder="Search..." />
+                    </div>
+                </div>
+            </div>
+        </nav>
+        
+		<section id = "post_feed">
+           
+		</section>
+        
+        <div class="loadmore-box">
+            <div id="loadmore">Load More</div>
+        </div>
+	</body>
+
+</html>
