@@ -1,0 +1,270 @@
+<html>
+
+    <head>
+        <link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"/>
+        
+        <script src="jquery-3.2.1.min.js"></script>
+        
+        <link rel="stylesheet"
+              type = "text/css"
+              href="stylesheet.css">
+        
+        <style>
+            
+            .post{
+                margin: 0 auto;
+                width: 400px;
+                background-color: white;
+                border-radius: 10px;
+                margin-bottom: 15px;
+            }
+
+            .post-topbar{
+                position:relative;
+                top: 15px;
+                margin: 0 auto;
+                width:auto;
+                padding: 6px;
+                background-color: #eeeeee;
+                z-index: 0;
+                border-left-style:solid;
+                border-right-style: solid;
+                border-top-style: solid;
+                border-color:lightgrey;
+                border-width: 1px;
+            }
+
+            .user-icon{
+                position: absolute;
+                margin-left: 10px;
+                width: 60px;
+                height: 60px;
+                border-radius: 100px;
+                background-color: lightpink;
+                z-index: 1;
+            }
+
+            .post-username{
+                margin-left: 75px;
+                margin-bottom: 10px;
+            }
+
+            .post-body{
+                width:auto;
+                height: auto;
+                background-color: white;
+                border-style:solid;
+                border-color:lightgrey;
+                border-width: 1px;
+                border-bottom-left-radius: 10px;
+                border-bottom-right-radius: 10px;
+            }
+
+            .post-titlebar{
+                position: relative;
+                top: 10px;
+                margin: 0 auto;
+                margin-top: 15px;
+                font-size: 1.1em;
+                padding:20px;
+            }
+
+            .post-content{
+                position: relative;
+                margin: 0 auto;
+                margin-left: 30px;
+                padding: 20px;
+                padding-top: 0px;
+            }
+            
+        </style>
+        
+        <script>
+        
+            var loaded = 0;
+            var load = 0;
+            var root = 'http://jsonplaceholder.typicode.com';
+            
+            function loadPosts(){
+                load++;
+                for(i = 1; i <= 10; i++){
+                    $.ajax(root + '/posts/' + (loaded + i), {
+                        method: 'GET'
+                    }).then(function(data){
+                        createPost(data);
+                        
+                        console.log('lol' + (loaded + i));
+                    });
+                }
+                loaded = load * (i-1);
+                console.log(loaded);
+            }
+            
+            function createPost(data){
+                $.ajax(root + '/users/' + data.userId, {
+                    method: 'GET'
+                }).then(function(temp){
+                    postItem(data, temp);
+                });
+            }
+            
+            function postItem(data, temp){
+                var t = data.title;
+                var c = data.body;
+                var u = temp.username;
+                
+                //create elements
+                var post = document.createElement("div");
+                var icon = document.createElement("div");
+                var tb = document.createElement("div");
+                var un = document.createElement("a");
+                var body = document.createElement("div");
+                var btb = document.createElement("div");
+                var bcon = document.createElement("div");
+                
+                //icon.setAttribute('src', 'media/icon.png');
+                //un.setAttribute('href', 'profile.html');
+                un.setAttribute('id', data.userId);
+                
+                //add classes
+                $(post).addClass("post");
+                $(icon).addClass("user-icon");
+                $(tb).addClass("post-topbar");
+                $(un).addClass("post-username");
+                $(body).addClass("post-body");
+                $(btb).addClass("post-titlebar");
+                $(bcon).addClass("post-content");
+                
+                //add values
+                $(btb).text(t);
+                $(bcon).text(c);
+                $(un).text(u);
+                
+                //assemble
+                $(body).append(btb);
+                $(body).append(bcon);
+                
+                $(tb).append(un);
+                
+                $(post).append(icon);
+                $(post).append(tb);
+                $(post).append(body);
+                
+                $("#feed").append(post);
+                
+                console.log("hh");
+            }
+            
+            function getProfile(){
+                
+            }
+                
+            loadPosts();
+            
+            $(document).ready(function(){
+                
+//                $(".feed").on('scroll', function(){
+//                    if( $(".feed").scrollTop() > $(".feed").height() - 10) {
+//                        console.log("Load more!");
+//                       loadPosts();
+//                    }
+//                }).scroll();
+                
+                $(document).on('click', '.post-username', function(){
+                    var test = $(this).attr('id');
+                    alert(test);
+                });
+                
+            })
+            
+        </script>
+        
+    </head>
+    
+    <body>
+        
+        <nav>
+        
+            <div class = "page-mark" id = "posts">
+                
+                <a href = "#">Posts</a>
+                
+                <i class="fa fa-edit"></i>
+                
+            </div>
+        
+            <div class = "page-mark" id = "photos">
+                
+                <a href = "photos.html">Photos</a>
+                
+                <i class="fa fa-picture-o" aria-hidden="true"></i>
+                
+            </div>
+            
+        </nav>
+        
+        <div class = "page">
+            
+            <section class = "sidebar">
+                
+                <div class = "searchbar">
+                    
+                    <input type = "search" id = "searchbox" placeholder="Search">
+                
+                </div>
+                
+                <div class = "logo">
+                    
+                    
+                    
+                </div>
+                
+                <div class = "site-name">
+                    
+                    <p>Website Name</p>
+                    
+                </div>
+            
+            </section>
+            
+            <section class = "feed" id = "feed">
+            
+<!--
+                <div class = "post">
+
+                    <img src="media/icon.png" class="user-icon">
+
+                    <div class = "post-topbar">
+
+                        <a class="post-username" href="#">
+                            Username
+                        </a>
+
+                    </div>
+
+                    <div class = "post-body">
+
+                        <div class = "post-titlebar">
+                            Title
+                        </div>
+
+                        <div class = "post-content">
+                            should be indented from the titlebar 
+                            content
+                        </div>
+
+                    </div>
+
+                </div>
+-->
+                
+            </section>
+            
+        </div>
+        
+        
+        
+        
+    </body>
+    
+</html>

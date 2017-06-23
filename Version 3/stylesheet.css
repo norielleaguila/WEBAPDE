@@ -1,0 +1,130 @@
+body{
+    background-color:ghostwhite;
+    font-family: "Tahoma", sans-serif;
+    font-size: 0.9em;
+}
+
+a{
+    color: rgb(255, 192, 206);
+    text-decoration: none;
+}
+
+a:hover{
+    color:skyblue;
+}
+
+.page{
+    margin: 0 auto;
+    width: 80%;
+    height: 100%;
+    background: url('media/feed.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+#feed{
+    position: fixed;
+    right: 13%;
+    top: 30px;
+    width: 400px;
+    height: 500px;
+    padding: 50px;
+    background-color:white;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    box-shadow: 3px 3px 5px rgba(118, 68, 31, 0.8);
+}
+
+.page-mark{
+    position: fixed;
+    margin: 0 auto;
+    width: 100px;
+    height: 30px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    box-shadow: 2px 2px 5px rgba(149, 149, 149, 0.53);
+    color: dimgrey;
+    text-align:right;
+    padding: 10px;
+    right: 9.8%;
+    transition: all 0.3s ease-in;
+}
+
+#posts{
+    background-color:lightpink;
+    top: 40px;
+    font-size: 1.8em;
+}
+
+#photos{
+    background-color:skyblue;
+    top: 100px;
+    font-size: 1.8em;
+}
+
+.page-mark:hover{
+    right: 5%;
+    transition: all 0.3s ease-in;
+}
+
+#photos i{
+    margin-top: 1px;
+}
+
+.sidebar{
+    position: fixed;
+    top: 30px;
+    left: 13%;
+    width: 400px;
+    height: 550px;
+    padding: 25px;
+}
+
+.searchbar{
+    margin: 0 auto;
+    width: 100%;
+    text-align: center;
+}
+
+#searchbox{
+    width: 300px;
+    height: 2.5em;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: 0 auto;
+    border-radius: 100px;
+    border-style: none;
+    margin-bottom: 20px;
+}
+
+#searchbox:focus{
+    outline: none;
+}
+
+.page-mark a{
+    color: dimgrey;
+    font-size: 0.6em;
+}
+            
+.logo{
+    margin: 0 auto;
+    text-align: center;
+    background-color: bisque;
+    width: 150px;
+    height: 150px;
+    border-radius: 100px;
+}
+
+.site-name{
+    margin: 0 auto;
+    text-align: center;
+}
+
+.site-name p{
+    font-size: 1.5em;
+    font-family: Arial, serif;
+    color:#583728;
+}
