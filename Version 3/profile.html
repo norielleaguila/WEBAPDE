@@ -109,7 +109,7 @@
                 height:150px;
                 background-color:skyblue;
             }
-            
+
         </style>
         
         <script>
@@ -117,38 +117,50 @@
             var loaded = 0;
             var load = 0;
             var root = 'http://jsonplaceholder.typicode.com';
-            
-            function loadPosts(){
-                
-                $.ajax(root + '/users/1/posts', {
-                    method: 'GET'
-                }).then(function(data){
-                    createPost(data);
-                });
-                
-//                load++;
-//                for(i = 1; i <= 10; i++){
-//                    $.ajax(root + '/posts/' + (loaded + i), {
-//                        method: 'GET'
-//                    }).then(function(data){
-//                        createPost(data);
-//                        
-//                        console.log('lol' + (loaded + i));
-//                    });
-//                }
-//                loaded = load * (i-1);
-//                console.log(loaded);
+            var userId = localStorage.getItem("userId");
+            var max = 0;
+
+            $.ajax({
+                url: root + '/users/' + userId + '/posts/',
+                method: 'GET',
+            }).then(function(data) {
+                max = data.length;
+                console.log(data.length);
+            });
+
+			function loadPosts(){
+                console.log(loaded + " SA " + max );
+                //"max == 0" di ko na magawang maalis to jaskdkjkd pero naalis ko siya before,
+                for(i = 1; i <= 10 && (loaded < max || max == 0); i++){
+                    $.ajax({
+                        url: root + '/users/' + userId + '/posts/' ,
+                        method: 'GET',
+                        error: function()
+                        {
+                            //file not exists
+                            console.log("File not exists");
+                        },
+                        success: function(data)
+                        {
+                            createPost(data[load]);
+                            console.log("loaded");
+                        }
+                    });
+                }
+
+                load++;
+                loaded = load * 10;
+
+                if(loaded == max)
+                    console.log("SHOW SOMETHING");
             }
-            
+
             function createPost(data){
-                
-                $.ajax(root + '/users/' + data[0].userId, {
+                $.ajax(root + '/users/' + data.userId, {
                     method: 'GET'
                 }).then(function(temp){
-                    for(i = 0; i < data.length; i++)
-                        postItem(data[i], temp);
+                        postItem(data, temp);
                 });
-                
             }
             
             function postItem(data, temp){
@@ -197,10 +209,61 @@
                 
                 console.log("hh");
             }
-            
+
+            function updateUserInfo(temp){
+                document.getElementById("name").innerHTML           = temp.name;
+                document.getElementById("email").innerHTML          = temp.email;
+                document.getElementById("address").innerHTML        = temp.address.street  + " " +
+                                                                      temp.address.suite   + " " +
+                                                                      temp.address.city    +
+                                                                      "<br><span style=\"display:inline-block; height: 20;\"></span>Zip" +
+                                                                        "<span style=\"display:inline-block; width: 6;\"></span>:" +
+                                                                        "<span style=\"display:inline-block; width: 10;\"></span>" +
+                                                                      temp.address.zipcode + "<br>Geo: " +
+                                                                      temp.address.geo.lat + "<br>" +
+                                                                        "<span style=\"display:inline-block; width: 40;\"></span>" +
+                                                                      temp.address.geo.lng;
+                document.getElementById("phone").innerHTML          = temp.phone;
+                document.getElementById("website").innerHTML        = temp.website;
+                document.getElementById("company-name").innerHTML   = temp.company.name;
+                document.getElementById("company-cp").innerHTML     = temp.company.catchPhrase;
+                document.getElementById("bs").innerHTML             = temp.company.bs;
+            }
+
             $(document).ready(function(){
-                
+                $.ajax({
+                    url: root + '/users/' + userId,
+                    method: 'GET',
+                    success: function(temp){
+                        updateUserInfo(temp);
+                        console.log("Updated user's info");
+                    }
+                });
+
                 loadPosts();
+
+                $(".feed").scroll(function() {
+                    var div = $(this);
+                    var scroll = 0;
+
+/*                    setTimeout(function() {
+                        scroll = div.scrollTop();
+                    }, 200);
+                    console.log(scroll);*/
+
+                    if (Math.round($(this).scrollTop()) == $(".feed")[0].scrollHeight - 600) { //scrollTop is 0 based
+                        console.log("Load more!");
+
+                        loadPosts();
+                    }
+                });
+
+                $(document).on('click', '.post-username', function(){
+                    var test = $(this).attr('id');
+                    //   alert(test);
+                    localStorage.setItem("userId", $(this).attr("id"));
+                    window.location.href = "profile.html";
+                });
                 
             })
             
@@ -251,12 +314,12 @@
                     <div class = "details-box">
                         
                         <div class = "col" class = "col1">
-                        
+
                             <p id = "name">Name</p>
+                            <p id = "phone">Phone</p>
                             <p id = "email">Email</p>
                             <p id = "address">Address</p>
-                            <p id = "phone">Phone</p>
-                            
+
                         </div>
                         
                         <div class = "col" class = "col2">

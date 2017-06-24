@@ -94,15 +94,13 @@
             });
 
 			function loadPosts(){
-                load++;
-
-                loaded = load * 10;
                 console.log(loaded + " SA " + max);
                 //"max == 0" di ko na magawang maalis to jaskdkjkd pero naalis ko siya before,
                 for(i = 1; i <= 10 && (loaded < max || max == 0); i++){
                     $.ajax({
                         url: root + '/posts/' + (loaded + i),
                         method: 'GET',
+//                        async: false,
                         error: function()
                         {
                             //file not exists
@@ -115,7 +113,10 @@
                     });
                 }
 
-                if(loaded == 110)
+                load++;
+                loaded = load * 10;
+
+                if(loaded == max)
                     console.log("SHOW SOMETHING");
             }
              
@@ -177,13 +178,19 @@
             function getProfile(){
                 
             }
-                
-            loadPosts();
+
 
             $(document).ready(function(){
+                loadPosts();
+
                 $(".feed").scroll(function() {
                     var div = $(this);
-                    if (Math.round(div.scrollTop()) == $(".feed")[0].scrollHeight - 600) { //scrollTop is 0 based
+                    var scroll = 0;
+/*                    setTimeout(function() {
+                        scroll = div.scrollTop();
+                    }, 200);
+                    console.log(scroll);*/
+                    if (Math.round($(this).scrollTop()) == $(".feed")[0].scrollHeight - 600) { //scrollTop is 0 based
                         console.log("Load more!");
 
                         loadPosts();
@@ -192,9 +199,9 @@
 
                 $(document).on('click', '.post-username', function(){
                     var test = $(this).attr('id');
-                    alert(test);
-                //    window.location.href = "profile.html";
-
+                    //   alert(test);
+                    localStorage.setItem("userId", $(this).attr("id"));
+                    window.location.href = "profile.html";
                 });
                 
             })
