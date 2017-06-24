@@ -82,39 +82,43 @@
         <script>
         
             var loaded = 0;
-            var load = 0;
             var root = 'http://jsonplaceholder.typicode.com';
-            var max = 0;
-
-            $.ajax({
-                url: root + '/posts/',
-                method: 'GET',
-            }).then(function(data) {
-                max = data.length;
-            });
+            var max = function () {
+                var tmp = null;
+                $.ajax({
+                    'async': false,
+                    url: root + '/posts/',
+                    method: 'GET',
+                    success: (function(data) {
+                        tmp = data.length;
+                    }),
+                });
+                return tmp;
+            }();
 
 			function loadPosts(){
                 console.log(loaded + " SA " + max);
                 //"max == 0" di ko na magawang maalis to jaskdkjkd pero naalis ko siya before,
-                for(i = 1; i <= 10 && (loaded < max || max == 0); i++){
-                    $.ajax({
-                        url: root + '/posts/' + (loaded + i),
-                        method: 'GET',
-//                        async: false,
-                        error: function()
-                        {
-                            //file not exists
-                            console.log("File not exists");
-                        },
-                        success: function(data)
-                        {
-                            createPost(data);
-                        }
-                    });
+                for(i = 1; i <= 10 && max && i < max; i++){
+                    (function(i, loaded) {
+                        $.ajax({
+                            url: root + '/posts/' + (loaded + i),
+                            method: 'GET',
+    //                        async: false,
+                            error: function()
+                            {
+                                //file not exists
+                                console.log("File not exists");
+                            },
+                            success: function(data)
+                            {
+                                createPost(data);
+                            }
+                        });
+                    })(i, loaded);
                 }
 
-                load++;
-                loaded = load * 10;
+                loaded += 10;
 
                 if(loaded == max)
                     console.log("SHOW SOMETHING");
