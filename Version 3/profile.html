@@ -386,6 +386,20 @@
                 }).scroll(); //invoke scroll-handler on page-load
             });
             
+            $(document).on('click', '.album', function(){
+                    var test = $(this).attr('id');
+                    //   alert(test);
+                    localStorage.setItem("albumId", $(this).attr("id"));
+                    window.location.href = "album.html";
+            });
+            
+            $(document).on('click', '.photo-preview', function(){
+                    var test = $(this).attr('id');
+                    //   alert(test);
+                    localStorage.setItem("albumId", $(this).attr("id"));
+                    window.location.href = "album.html";
+            });
+            
         </script>
         
     </head>
