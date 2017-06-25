@@ -10,13 +10,11 @@
               href="stylesheet.css">
         
         <style>
-            #feed{
-                background: #eeeeee;
-            }
+            
             .post{
                 margin: 0 auto;
                 width: 400px;
-                background-color: white;
+                background-color: #eeeeee;
                 border-radius: 10px;
                 margin-bottom: 15px;
             }
@@ -27,7 +25,7 @@
                 margin: 0 auto;
                 width:auto;
                 padding: 6px;
-                background-color: white;
+                background-color: #3888a8;
                 z-index: 0;
                 border-left-style:solid;
                 border-right-style: solid;
@@ -44,6 +42,9 @@
                 border-radius: 100px;
                 background-color: lightpink;
                 z-index: 1;
+                border-style:solid;
+                border-width: thin;
+                border-color: #3888a8;
             }
 
             .post-username{
@@ -135,6 +136,10 @@
                 width:150px;
                 height:150px;
                 background-color:skyblue;
+            }
+            
+            .preview-photo:hover{
+                transition: all 0.3s ease-in;
             }
 
         </style>
@@ -248,7 +253,7 @@
                 $(icon).addClass("preview-photo");
 
                 //add values
-                $(album).text(data.title);
+                //$(album).text(data.title);
 
                 //assemble
                 $(icon).prepend('<img id="theImg" src="' + temp.thumbnailUrl + '.png" />');
