@@ -150,6 +150,7 @@
             var loadA = 0;
             var root = 'http://jsonplaceholder.typicode.com';
             var userId = localStorage.getItem("userId");
+            
             var nPosts = function () {
                 var tmp = null;
                 $.ajax({
@@ -387,17 +388,17 @@
             });
             
             $(document).on('click', '.album', function(){
-                    var test = $(this).attr('id');
-                    //   alert(test);
-                    localStorage.setItem("albumId", $(this).attr("id"));
-                    window.location.href = "album.html";
+                var test = $(this).attr('id');
+                localStorage.setItem("albumId", $(this).attr("id"));
+                localStorage.setItem("userId", userId);
+                window.location.href = "album.html";
             });
             
             $(document).on('click', '.photo-preview', function(){
-                    var test = $(this).attr('id');
-                    //   alert(test);
-                    localStorage.setItem("albumId", $(this).attr("id"));
-                    window.location.href = "album.html";
+                var test = $(this).attr('id');
+                localStorage.setItem("albumId", $(this).attr("id"));
+                localStorage.setItem("userId", userId);
+                window.location.href = "album.html";
             });
             
         </script>

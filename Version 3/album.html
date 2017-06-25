@@ -11,17 +11,128 @@
         
         <script>
         
-        
-        
-        
+            var loaded = 0;
+            var loadA = 0;
+            var root = 'http://jsonplaceholder.typicode.com';
+            var userId = localStorage.getItem("userId");
+            var albumId = localStorage.getItem("albumId");
+            
         </script>
-        
     
     </head>
     
     <body>
         
-        hello
+        <nav>
+        
+            <div class = "page-mark" id = "posts">
+                
+                <a href = "index.html">Posts</a>
+                
+                <i class="fa fa-edit"></i>
+                
+            </div>
+        
+            <div class = "page-mark" id = "photos">
+                
+                <a href = "photos.html">Photos</a>
+                
+                <i class="fa fa-picture-o" aria-hidden="true"></i>
+                
+            </div>
+            
+        </nav>
+        
+        <div class = "page">
+            
+            <section class = "sidebar">
+                
+                <div class = "searchbar">
+                    
+                    <input type = "search" id = "searchbox" placeholder="Search">
+                
+                </div>
+                
+                <div class = "album-info">
+                <!-- Insert user photo here then their username-->
+                
+                    <div class = "user-info">
+
+                        <div class = "user-icon">
+
+                        </div>
+
+                        <div class = "username">
+
+                        </div>
+
+                    </div>
+
+                    <!-- Album title -->
+
+                    <p>Album Title</p>
+                
+                </div>
+            
+            </section>
+            
+            <section class = "feed" id = "feed">
+                
+                <!-- Photo template
+                    
+                <div class = "photo-display">
+
+                    <div class = "tape">
+
+                    </div>
+
+                    <div class = "frame">
+
+                        <div class = "photo-preview">
+
+                        </div>
+
+                    </div>
+
+                </div>
+                    
+                -->
+                
+                <div class = "photo-display">
+
+                    <div class = "tape">
+
+                    </div>
+
+                    <div class = "frame">
+
+                        <div class = "photo-preview">
+
+                        </div>
+
+                    </div>
+
+                </div>
+                
+                <div class = "photo-display">
+
+                    <div class = "tape">
+
+                    </div>
+
+                    <div class = "frame">
+
+                        <div class = "photo-preview">
+
+                        </div>
+
+                    </div>
+
+                </div>
+                
+            </section>
+            
+        </div>
         
     </body>
 
