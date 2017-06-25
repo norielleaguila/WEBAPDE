@@ -110,8 +110,8 @@
     //                        async: false,
                             error: function()
                             {
-                                //file not exists
-                                console.log("File not exists");
+                                //file does not exists
+                                console.log("File does not exist");
                             },
                             success: function(data)
                             {
@@ -201,8 +201,8 @@
 
                 $(document).on('click', '.post-username', function(){
                     var test = $(this).attr('id');
-                    //   alert(test);
                     localStorage.setItem("userId", $(this).attr("id"));
+                    localStorage.setItem("username", $(this).text());
                     window.location.href = "profile.html";
                 });
                 
