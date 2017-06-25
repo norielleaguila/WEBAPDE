@@ -253,11 +253,9 @@
                 $(album).addClass("album");
                 $(icon).addClass("preview-photo");
 
-                //add values
-                //$(album).text(data.title);
-
                 //assemble
                 $(icon).prepend('<img id="theImg" src="' + temp.thumbnailUrl + '.png" />');
+                $(icon).append("<br>" + data.title);
                 $(album).append(icon);
                 $(".album-previews").append(album);
 
