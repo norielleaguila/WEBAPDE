@@ -5,12 +5,13 @@ body{
 }
 
 a{
-    color: rgb(255, 192, 206);
+    color: #ffdada;
     text-decoration: none;
 }
 
 a:hover{
     color:skyblue;
+    cursor: pointer;
 }
 
 .page{
