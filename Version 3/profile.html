@@ -229,7 +229,7 @@
                     method: 'GET'
                 }).then(function(temp){
                     console.log(data.id + ": " + temp[1].albumId);
-                    postAlbum(data, temp[0]);
+                    postAlbum(data, temp[Math.floor((Math.random() * temp.length) + 0)]);
                 });
             }
 
