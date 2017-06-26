@@ -86,7 +86,7 @@
                 width: 180px;
                 height: 200px;
                 display: inline-block;
-                margin-top: 50px;
+                margin-top: 10px;
                 margin-right: 15px;
                 padding: 15px;
                 padding-bottom: 2px;
@@ -136,6 +136,8 @@
                 box-shadow: 3px 3px 5px rgba(118, 68, 31, 0.8);
                 opacity: 1;
                 margin-left: 10px;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             
             .album:hover{
@@ -146,19 +148,25 @@
                 width:150px;
                 height:150px;
                 background-color:skyblue;
-                text-overflow: ellipsis;
-                white-space:nowrap;
             }
             
             .preview-photo:hover{
                 transition: all 0.3s ease-in;
             }
+            
+            .album-title{
+                width: 150px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
 
             #username{
+                line-height: 60px;
                 position: relative;
                 display: inline;
                 margin: 0 auto;
-                margin-left: 70px;
+                margin-left: 80px;
+                padding: 0px;
             }
 		
 	       #googleMap{
@@ -278,6 +286,8 @@
                 //create elements
                 var album = document.createElement("div");
                 var icon = document.createElement("div");
+                var title = document.createElement("div");
+                
                 album.setAttribute('href', '#');
                 album.setAttribute('id', data.id);
                 album.setAttribute('title', data.title);
@@ -287,11 +297,14 @@
                 //add classes
                 $(album).addClass("album");
                 $(icon).addClass("preview-photo");
+                $(title).addClass("album-title");
+                
+                $(title).text(data.title);
 
                 //assemble
                 $(icon).prepend('<img id="theImg" src="' + temp.thumbnailUrl + '.png" />');
-                $(icon).append("<br>" + data.title);
                 $(album).append(icon);
+                $(album).append(title);
                 $(".album-previews").append(album);
 
                 console.log("ALBUMM");
