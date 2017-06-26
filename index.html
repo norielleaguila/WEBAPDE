@@ -1,1 +1,298 @@
-<h1>hello</h1>
+<html>
+
+    <head>
+        <link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"/>
+        
+        <script src="jquery-3.2.1.min.js"></script>
+        
+        <link rel="stylesheet"
+              type = "text/css"
+              href="stylesheet.css">
+        
+        <style>
+            
+            .post{
+                margin: 0 auto;
+                width: 400px;
+                background-color: #eeeeee;
+                border-radius: 10px;
+                margin-bottom: 15px;
+            }
+
+            .post-topbar{
+                position:relative;
+                top: 15px;
+                margin: 0 auto;
+                width:auto;
+                padding: 6px;
+                background-color: #3888a8;
+                z-index: 0;
+                border-left-style:solid;
+                border-right-style: solid;
+                border-top-style: solid;
+                border-color:lightgrey;
+                border-width: 1px;
+            }
+
+            .user-icon{
+                position: absolute;
+                margin-left: 10px;
+                width: 60px;
+                height: 60px;
+                border-radius: 100px;
+                background-color: #ff9898;
+                z-index: 1;
+                border-style:solid;
+                border-width: 2px;
+                border-color: #3888a8;
+            }
+
+            .post-username{
+                margin-left: 75px;
+                margin-bottom: 10px;
+            }
+
+            .post-body{
+                width:auto;
+                height: auto;
+                background-color: white;
+                border-style:solid;
+                border-color:lightgrey;
+                border-width: 1px;
+                border-bottom-left-radius: 10px;
+                border-bottom-right-radius: 10px;
+            }
+
+            .post-titlebar{
+                position: relative;
+                top: 10px;
+                margin: 0 auto;
+                margin-top: 15px;
+                font-size: 1.1em;
+                padding:20px;
+            }
+
+            .post-content{
+                position: relative;
+                margin: 0 auto;
+                margin-left: 30px;
+                padding: 20px;
+                padding-top: 0px;
+            }
+            
+        </style>
+        
+        <script>
+        
+            var loaded = 0;
+            var root = 'http://jsonplaceholder.typicode.com';
+            var max = function () {
+                var tmp = null;
+                $.ajax({
+                    'async': false,
+                    url: root + '/posts/',
+                    method: 'GET',
+                    success: (function(data) {
+                        tmp = data.length;
+                    }),
+                });
+                return tmp;
+            }();
+
+			function loadPosts(){
+                console.log(loaded + " SA " + max);
+                //"max == 0" di ko na magawang maalis to jaskdkjkd pero naalis ko siya before,
+//                for(i = 1; i <= 10 && max && i < max; i++){
+                for(i = 0; i < 10 && i < max; i++){
+                    (function(i, loaded) {
+                        $.ajax({
+                            url: root + '/posts/' + (max-loaded-i),
+                            method: 'GET',
+    //                        async: false,
+                            error: function()
+                            {
+                                //file does not exists
+                                console.log("File does not exist");
+                            },
+                            success: function(data)
+                            {
+                                console.log("LOAD POST: " +(max-loaded-i));
+                                createPost(data);
+                            }
+                        });
+                    })(i, loaded);
+                }
+                loaded += 10;
+
+                if(loaded == max)
+                    console.log("SHOW SOMETHING");
+            }
+             
+            function createPost(data){
+                $.ajax(root + '/users/' + data.userId, {
+                    method: 'GET'
+                }).then(function(temp){
+                    postItem(data, temp);
+                });
+            }
+            
+            function postItem(data, temp){
+                var t = data.title;
+                var c = data.body;
+                var u = temp.username;
+                
+                //create elements
+                var post = document.createElement("div");
+                var icon = document.createElement("div");
+                var tb = document.createElement("div");
+                var un = document.createElement("a");
+                var body = document.createElement("div");
+                var btb = document.createElement("div");
+                var bcon = document.createElement("div");
+                
+                //icon.setAttribute('src', 'media/icon.png');
+                //un.setAttribute('href', 'profile.html');
+                un.setAttribute('id', data.userId);
+                
+                //add classes
+                $(post).addClass("post");
+                $(icon).addClass("user-icon");
+                $(tb).addClass("post-topbar");
+                $(un).addClass("post-username");
+                $(body).addClass("post-body");
+                $(btb).addClass("post-titlebar");
+                $(bcon).addClass("post-content");
+                
+                //add values
+                $(btb).text(t);
+                $(bcon).text(c);
+                $(un).text(u);
+                
+                //assemble
+                $(body).append(btb);
+                $(body).append(bcon);
+                
+                $(tb).append(un);
+                
+                $(post).append(icon);
+                $(post).append(tb);
+                $(post).append(body);
+                
+                $("#feed").append(post);
+                
+                console.log("hh");
+            }
+            
+            $(document).ready(function(){
+                loadPosts();
+
+                $(".feed").scroll(function() {
+                    var div = $(this);
+                    var scroll = 0;
+/*                    setTimeout(function() {
+                        scroll = div.scrollTop();
+                    }, 200);
+                    console.log(scroll);*/
+                    if (Math.round($(this).scrollTop()) == $(".feed")[0].scrollHeight - 600) { //scrollTop is 0 based
+                        console.log("Load more!");
+
+                        loadPosts();
+                    }
+                });
+
+                $(document).on('click', '.post-username', function(){
+                    var test = $(this).attr('id');
+                    localStorage.setItem("userId", $(this).attr("id"));
+                    localStorage.setItem("username", $(this).text());
+                    window.location.href = "profile.html";
+                });
+                
+            })
+            
+        </script>
+        
+    </head>
+    
+    <body>
+        
+        <nav>
+        
+            <div class = "page-mark" id = "posts">
+                
+                <a href = "#">Posts</a>
+                
+                <i class="fa fa-edit"></i>
+                
+            </div>
+        
+            <div class = "page-mark" id = "photos">
+                
+                <a href = "photos.html">Photos</a>
+                
+                <i class="fa fa-picture-o" aria-hidden="true"></i>
+                
+            </div>
+            
+        </nav>
+        
+        <div class = "page">
+            
+            <section class = "sidebar">
+                
+                <div class = "searchbar">
+                    
+                    <input type = "search" id = "searchbox" placeholder="Search">
+                
+                </div>
+                
+                <div class = "logo"></div>
+                
+                <div class = "site-name">
+                    
+                    <p>Website Name</p>
+                    
+                </div>
+                
+                
+            
+            </section>
+            
+            <section class = "feed" id = "feed">
+                
+<!--        Post template
+
+                <div class = "post">
+
+                    <img src="media/icon.png" class="user-icon">
+
+                    <div class = "post-topbar">
+
+                        <a class="post-username" href="#">
+                            Username
+                        </a>
+
+                    </div>
+
+                    <div class = "post-body">
+
+                        <div class = "post-titlebar">
+                            Title
+                        </div>
+
+                        <div class = "post-content">
+                            should be indented from the titlebar 
+                            content
+                        </div>
+
+                    </div>
+
+                </div>
+-->
+                
+            </section>
+            
+        </div>
+        
+    </body>
+    
+</html>
