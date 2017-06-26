@@ -4,6 +4,7 @@
         <link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"/>
         
         <script src="jquery-3.2.1.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4217tuYuAr0OEV9tCKW4Ol2DgDsxjueg&callback=myMap"></script>
         
         <link rel="stylesheet"
               type = "text/css"
@@ -147,6 +148,18 @@
                 display: inline;
                 margin: 0 auto;
                 margin-left: 70px;
+            }
+		
+	    #googleMap{
+                position: fixed;
+                z-index: 2;
+                width: 500px;
+                height: 250px;
+                right:7;
+                overflow:hidden; /* Enable scroll if needed */
+                background-color: rgb(0,0,0); /* Fallback color */
+                background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+                box-shadow: 0 0 10px #000000;
             }
         </style>
         
@@ -330,15 +343,35 @@
                                                                       "<br><span style=\"display:inline-block; height: 20;\"></span>Zip" +
                                                                         "<span style=\"display:inline-block; width: 6;\"></span>:" +
                                                                         "<span style=\"display:inline-block; width: 10;\"></span>" +
-                                                                      temp.address.zipcode + "<br>Geo: " +
-                                                                      temp.address.geo.lat + "<br>" +
-                                                                        "<span style=\"display:inline-block; width: 40;\"></span>" +
-                                                                      temp.address.geo.lng;
+                                                                      temp.address.zipcode;
+
                 document.getElementById("phone").innerHTML          = temp.phone;
                 document.getElementById("website").innerHTML        = temp.website;
                 document.getElementById("company-name").innerHTML   = temp.company.name;
                 document.getElementById("company-cp").innerHTML     = temp.company.catchPhrase;
                 document.getElementById("bs").innerHTML             = temp.company.bs;
+
+
+                var mapCanvas = document.getElementById("googleMap");
+                var mapOptions = {
+                    center: new google.maps.LatLng(temp.address.geo.lat, temp.address.geo.lng),
+                    zoom: 5
+                };
+                var map = new google.maps.Map(mapCanvas, mapOptions);
+                mapCanvas.style.display = 'none';
+
+                $("#address").mouseover(function(){
+                    document.getElementById("googleMap").style.display = "block";
+                });
+
+                $("#googleMap").mouseover(function(){
+                    document.getElementById("googleMap").style.display = "block";
+                });
+
+                $("#googleMap").mouseout(function(){
+                    document.getElementById("googleMap").style.display = "none";
+                });
+
             }
 
             $(document).ready(function(){
@@ -455,6 +488,7 @@
                             <p id = "phone"> </p>
                             <p id = "email"> </p>
                             <p id = "address"> </p>
+                            <div id="googleMap" style="width:400px;height:300px;"></div>
 
                         </div>
                         
