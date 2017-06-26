@@ -102,10 +102,11 @@
 			function loadPosts(){
                 console.log(loaded + " SA " + max);
                 //"max == 0" di ko na magawang maalis to jaskdkjkd pero naalis ko siya before,
-                for(i = 1; i <= 10 && max && i < max; i++){
+//                for(i = 1; i <= 10 && max && i < max; i++){
+                for(i = 0; i < 10 && i < max; i++){
                     (function(i, loaded) {
                         $.ajax({
-                            url: root + '/posts/' + (loaded + i),
+                            url: root + '/posts/' + (max-loaded-i),
                             method: 'GET',
     //                        async: false,
                             error: function()
@@ -115,12 +116,12 @@
                             },
                             success: function(data)
                             {
+                                console.log("LOAD POST: " +(max-loaded-i));
                                 createPost(data);
                             }
                         });
                     })(i, loaded);
                 }
-
                 loaded += 10;
 
                 if(loaded == max)

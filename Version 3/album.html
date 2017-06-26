@@ -23,7 +23,8 @@
 
 
 			function loadPhotos(){
-                for(i = 0; i <= 10 && loadA * 10 < nPhotos && i < nPhotos; i++){
+//                for(i = 0; i <= 10 && loadA * 10 < nPhotos && i < nPhotos; i++){
+                for(i = 1; i <= 10 && loadA * 10 <= nPhotos && i <= nPhotos; i++){
                     (function(i, loadA, albumId) {
                         $.ajax({
                             url: root + '/albums/' + albumId+ '/photos/',
@@ -35,7 +36,7 @@
                             },
                             success: function(data)
                             {
-                                postPhoto(data[i + loadA]);
+                                postPhoto(data[nPhotos - loadA - i]);
                             }
                         });
                     })(i, loadA, albumId);
@@ -137,6 +138,7 @@
             }
             
             .album-title{
+                
             }
         
         </style>

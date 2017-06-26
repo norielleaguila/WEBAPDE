@@ -184,7 +184,7 @@
             }();
 
 			function loadAlbums(){
-                for(i = 0; i <= 10 && loadA * 10 < nAlbums && i < nAlbums; i++){
+                for(i = 1; i <= 10 && loadA * 10 <= nAlbums && i <= nAlbums; i++){
                     (function(i, loadA) {
                         $.ajax({
                             url: root + '/users/' + userId + '/albums/' ,
@@ -196,7 +196,8 @@
                             },
                             success: function(data)
                             {
-                                createAlbum(data[i + loadA]);
+                                console.log("LOAD ALBUM: " + (nAlbums-loadA-i));
+                                createAlbum(data[nAlbums - loadA - i]);
                             }
                         });
                     })(i, loadA);
@@ -208,7 +209,7 @@
 			function loadPosts(){
                 console.log(loaded + " SA " + nPosts );
                 //"nPosts == 0" di ko na magawang maalis to jaskdkjkd pero naalis ko siya before,
-                for(i = 0; i <= 9 && loaded < nPosts && i < nPosts; i++){
+                for(i = 1; i <= 10 && loaded <= nPosts && i <= nPosts; i++){
                       (function(i, loaded) {
                             $.ajax({
                                 url: root + '/users/' + userId + '/posts/' ,
@@ -220,7 +221,8 @@
                                 },
                                 success: function(data)
                                 {
-                                    createPost(data[loaded + i]);
+                                    console.log("LOAD POST: " + (nPosts - loaded - i));
+                                    createPost(data[nPosts - loaded - i]);
                                 }
                             });
                       })(i, loaded);
