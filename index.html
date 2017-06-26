@@ -151,8 +151,6 @@
                 var btb = document.createElement("div");
                 var bcon = document.createElement("div");
                 
-                //icon.setAttribute('src', 'media/icon.png');
-                //un.setAttribute('href', 'profile.html');
                 un.setAttribute('id', data.userId);
                 
                 //add classes
@@ -190,10 +188,6 @@
                 $(".feed").scroll(function() {
                     var div = $(this);
                     var scroll = 0;
-/*                    setTimeout(function() {
-                        scroll = div.scrollTop();
-                    }, 200);
-                    console.log(scroll);*/
                     if (Math.round($(this).scrollTop()) == $(".feed")[0].scrollHeight - 600) { //scrollTop is 0 based
                         console.log("Load more!");
 
