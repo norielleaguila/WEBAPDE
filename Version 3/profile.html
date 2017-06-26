@@ -153,8 +153,8 @@
 	    #googleMap{
                 position: fixed;
                 z-index: 2;
-                width: 500px;
-                height: 250px;
+                width: 100px;
+                height: 100px;
                 right:7;
                 overflow:hidden; /* Enable scroll if needed */
                 background-color: rgb(0,0,0); /* Fallback color */
@@ -358,7 +358,6 @@
                     zoom: 5
                 };
                 var map = new google.maps.Map(mapCanvas, mapOptions);
-                mapCanvas.style.display = 'none';
 
                 $("#address").mouseover(function(){
                     document.getElementById("googleMap").style.display = "block";
