@@ -1,15 +1,15 @@
 <html>
 
-    <head>
-        <link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"/>
-        
-        <script src="jquery-3.2.1.min.js"></script>
-        
-        <link rel="stylesheet"
-              type = "text/css"
-              href="stylesheet.css">
-        
-        <style>
+<head>
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"/>
+
+    <script src="jquery-3.2.1.min.js"></script>
+
+    <link rel="stylesheet"
+          type = "text/css"
+          href="stylesheet.css">
+
+    <style>
             
             .photo-display{
                 display: inline-block;
@@ -66,7 +66,7 @@
                 background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
             }
             
-            
+
             .photo {
                 margin: auto;
                 display: block;
@@ -74,7 +74,7 @@
                 max-width: 600px;
                 background-color:antiquewhite;
             }
-            
+
             .caption{
                 margin: auto;
                 display: block;
@@ -85,17 +85,17 @@
                 padding: 10px 0;
                 height: 150px;
             }
-            
-            .photo, .caption { 
+
+            .photo, .caption {
                 animation-name: zoom;
                 animation-duration: 0.6s;
             }
-            
+
             @keyframes zoom {
-                from {transform:scale(0)} 
+                from {transform:scale(0)}
                 to {transform:scale(1)}
             }
-            
+
             .close {
                 position: absolute;
                 top: 15px;
@@ -105,17 +105,17 @@
                 font-weight: bold;
                 transition: 0.3s;
             }
-            
+
             .close:hover, .close:focus {
                 color: #bbb;
                 text-decoration: none;
                 cursor: pointer;
             }
-            
+
         </style>
-        
-        <script>
-            
+
+    <script>
+
             var loaded = 0;
             var loadA = 0;
             var root = 'http://jsonplaceholder.typicode.com';
@@ -131,10 +131,8 @@
                 });
                 return tmp;
             }();
-
 			function loadPhotos(){
                 for(i = 1; i <= 10 && max && i < max; i++){
-                    console.log('i = ' + i);
                     (function(i, loadA) {
                         $.ajax({
                             url: root + '/photos/',
@@ -146,17 +144,51 @@
                             },
                             success: function(data)
                             {
-                                postPhoto(data[max - loadA - i]);
+                                generateAlbumInfo(data[max - loadA - i]);
                             }
                         });
                     })(i, loadA);
                 }
-
                 loadA += 10;
             }
 
-            function postPhoto(data){
+            function generateAlbumInfo(data) {
+                (function(data) {
+                    $.ajax({
+                        url: root + '/albums/' + data.albumId,
+                        method: 'GET',
+                        error: function()
+                        {
+                            //file does not exists
+                            console.log("File does not exist");
+                        },
+                        success: function(album)
+                        {
+                            generateUserInfo(data, album);
+                        }
+                    });
+                })(data);
+            }
 
+            function generateUserInfo(data, album) {
+                (function(data, album) {
+                    $.ajax({
+                        url: root + '/users/' + album.userId,
+                        method: 'GET',
+                        error: function()
+                        {
+                            //file does not exists
+                            console.log("File does not exist");
+                        },
+                        success: function(user)
+                        {
+                            postPhoto(data, album, user);
+                        }
+                    });
+                })(data, album);
+            }
+
+            function postPhoto(data, album, user){
                 //create elements
                 var photoDisplay = document.createElement("div");
                 var tape         = document.createElement("div");
@@ -176,100 +208,108 @@
                 $(close).addClass("close");
                 $(photo).addClass("photo");
                 $(caption).addClass("caption");
-                
-                $(close).text("x");
-                $(caption).text("Title: " + data.title + 
-                                "<br>Album: " + 
-                                "By: ");
 
+                $(close).text("x");
+                $(caption).append("Title: " + data.title +
+                               "<br>Album: " + '<a id="album" albumId="' +
+                                album.id + '" userId = "' + user.username +
+                               '">' + album.title + '</a>' +
+                               "<br>By: " + '<a id = "username" userId = "' +
+                                user.id + '">' + user.username + '</a>');
                 //assemble
                 $(photo).prepend('<img id="theImg" src="' + data.url + '.png" />');
                 $(modal).append(close);
                 $(modal).append(photo);
                 $(modal).append(caption);
-                
+
                 $(photoPreview).prepend('<img id="theImg" src="' + data.thumbnailUrl + '.png" />');
                 $(photoDisplay).append(tape);
                 $(photoDisplay).append(frame);
                 $(frame).append(photoPreview);
-                
+
                 $(".feed").append(modal);
                 $(".feed").append(photoDisplay);
-                
+
                 $(frame).click(function(){
                     modal.style.display = "block";
                 });
-                
+
                 $(close).click(function(){
                     modal.style.display = "none";
                 });
             }
-
             $(document).ready(function(){
                 loadPhotos();
-
-                $(document).on('click', '#username', function(){
-                    window.location.href = "profile.html";
-                });
             });
-            
+
+            $(document).on('click', '#username', function(){
+                localStorage.setItem("userId", $(this).attr("userId"));
+                window.location.href = "profile.html";
+            });
+
+
+            $(document).on('click', '#album', function(){
+                localStorage.setItem("userId", $(this).attr("userId"));
+                localStorage.setItem("albumId", $(this).attr("albumId"));
+                window.location.href = "album.html";
+            });
         </script>
-        
-    </head>
-    
+
+</head>
+
     <body>
-        
+
         <nav>
-        
+
             <div class = "page-mark" id = "posts">
-                
+
                 <a href = "index.html">Posts</a>
-                
+
                 <i class="fa fa-edit"></i>
-                
+
             </div>
-        
+
             <div class = "page-mark" id = "photos">
-                
+
                 <a href = "#">Photos</a>
-                
+
                 <i class="fa fa-picture-o" aria-hidden="true"></i>
-                
+
             </div>
-            
+
         </nav>
-        
+
         <div class = "page">
-            
+
             <section class = "sidebar">
-                
+
                 <div class = "searchbar">
-                    
+
                     <input type = "search" id = "searchbox" placeholder="Search">
-                
+
                 </div>
-                
+
                 <div class = "logo">
-                    
+
                 </div>
-                
+
                 <div class = "site-name">
-                    
+
                     <p>Website Name</p>
-                    
+
                 </div>
-            
+
             </section>
-            
+
             <section class = "feed" id = "feed">
-                
+
             </section>
-            
+
         </div>
-        
-        
-        
-        
+
+
+
+
     </body>
-    
+
 </html>
