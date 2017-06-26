@@ -138,10 +138,29 @@
                 document.getElementById("username").innerHTML = localStorage.getItem("username");
                 document.getElementById("album-title").innerHTML = localStorage.getItem("albumTitle");
 
+                 $(".feed").scroll(function() {
+                    var div = $(this);
+                    var scroll = 0;
+/*                    setTimeout(function() {
+                        scroll = div.scrollTop();
+                    }, 200);
+                    console.log(scroll);*/
+                    if (Math.round($(this).scrollTop()) == $(".feed")[0].scrollHeight - 600) { //scrollTop is 0 based
+                        console.log("Load more!");
 
+                        loadPhotos();
+                    }
+                });
+                
                 $(document).on('click', '#username', function(){
                     window.location.href = "profile.html";
                 });
+                
+                $(document).on('click', '#username', function(){
+                    window.location.href = "profile.html";
+                });
+                
+                
             });
         </script>
         
