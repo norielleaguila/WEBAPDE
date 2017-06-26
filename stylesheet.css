@@ -129,6 +129,14 @@ a:hover{
 
 .site-name p{
     font-size: 1.5em;
-    font-family: Arial, serif;
     color:#583728;
+}
+
+@font-face{
+    font-family:bebas-neue;
+    src: url(BebasNeue.otf);
+}
+
+body{
+    font-family: bebas-nueue, sans-serif;
 }
