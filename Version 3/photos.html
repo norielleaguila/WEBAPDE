@@ -14,7 +14,7 @@
             .photo-display{
                 display: inline-block;
                 margin-left:15px;
-                padding-bottom: 15px;
+                padding-bottom: 25px;
                 transition: all 0.2s ease-in;
             }
             
@@ -24,7 +24,14 @@
             }
             
             .tape{
-                
+                position: absolute;
+                margin-left: 38px;
+                margin-top: -10px;
+/*                background-color: skyblue;*/
+                background-color:#ffd5a3;
+                width: 100px;
+                height: 30px;
+                opacity: 0.8;
             }
             
             .frame{
@@ -46,6 +53,75 @@
         </style>
         
         <script>
+            
+            var loaded = 0;
+            var loadA = 0;
+            var root = 'http://jsonplaceholder.typicode.com';
+            var max = function () {
+                var tmp = null;
+                $.ajax({
+                    'async': false,
+                    url: root + '/posts/',
+                    method: 'GET',
+                    success: (function(data) {
+                        tmp = data.length;
+                    }),
+                });
+                return tmp;
+            }();
+
+			function loadPhotos(){
+                for(i = 1; i <= 10 && max && i < max; i++){
+                    console.log('i = ' + i);
+                    (function(i, loadA) {
+                        $.ajax({
+                            url: root + '/photos/',
+                            method: 'GET',
+                            error: function()
+                            {
+                                //file does not exists
+                                console.log("File does not exist");
+                            },
+                            success: function(data)
+                            {
+                                postPhoto(data[i + loadA]);
+                            }
+                        });
+                    })(i, loadA);
+                }
+
+                loadA += 10;
+            }
+
+            function postPhoto(data){
+
+                //create elements
+                var photoDisplay = document.createElement("div");
+                var tape         = document.createElement("div");
+                var frame        = document.createElement("div");
+                var photoPreview = document.createElement("div");
+
+                //add classes
+                $(photoDisplay).addClass("photo-display");
+                $(tape).addClass("tape");
+                $(frame).addClass("frame");
+                $(photoPreview).addClass("photo-preview");
+
+                //assemble
+                $(photoPreview).prepend('<img id="theImg" src="' + data.thumbnailUrl + '.png" />');
+                $(photoDisplay).append(tape);
+                $(photoDisplay).append(frame);
+                $(frame).append(photoPreview);
+                $(".feed").append(photoDisplay);
+            }
+
+            $(document).ready(function(){
+                loadPhotos();
+
+                $(document).on('click', '#username', function(){
+                    window.location.href = "profile.html";
+                });
+            });
             
         </script>
         
@@ -97,133 +173,6 @@
             
             <section class = "feed" id = "feed">
                 
-                <div class = "photo-display">
-                
-                    <div class = "tape">
-                
-                    </div>
-
-                    <div class = "frame">
-                
-                        <div class = "photo-preview">
-                        
-                        </div>
-
-                    </div>
-                    
-                </div>
-                
-                <div class = "photo-display">
-                
-                    <div class = "tape">
-                
-                    </div>
-
-                    <div class = "frame">
-                
-                        <div class = "photo-preview">
-                        
-                        </div>
-
-                    </div>
-                    
-                </div>
-                
-                <div class = "photo-display">
-                
-                    <div class = "tape">
-                
-                    </div>
-
-                    <div class = "frame">
-                
-                        <div class = "photo-preview">
-                        
-                        </div>
-
-                    </div>
-                    
-                </div>
-                
-                <div class = "photo-display">
-                
-                    <div class = "tape">
-                
-                    </div>
-
-                    <div class = "frame">
-                
-                        <div class = "photo-preview">
-                        
-                        </div>
-
-                    </div>
-                    
-                </div>
-                
-                <div class = "photo-display">
-                
-                    <div class = "tape">
-                
-                    </div>
-
-                    <div class = "frame">
-                
-                        <div class = "photo-preview">
-                        
-                        </div>
-
-                    </div>
-                    
-                </div>
-                
-                <div class = "photo-display">
-                
-                    <div class = "tape">
-                
-                    </div>
-
-                    <div class = "frame">
-                
-                        <div class = "photo-preview">
-                        
-                        </div>
-
-                    </div>
-                    
-                </div>
-                
-                <div class = "photo-display">
-                
-                    <div class = "tape">
-                
-                    </div>
-
-                    <div class = "frame">
-                
-                        <div class = "photo-preview">
-                        
-                        </div>
-
-                    </div>
-                    
-                </div>
-                
-                <div class = "photo-display">
-                
-                    <div class = "tape">
-                
-                    </div>
-
-                    <div class = "frame">
-                
-                        <div class = "photo-preview">
-                        
-                        </div>
-
-                    </div>
-                    
-                </div>
             </section>
             
         </div>
