@@ -107,10 +107,10 @@
                 $(close).text("x");
                 $(caption).append("Title: " + data.title +
                                "<br>Album: " + '<a id="album" albumId="' +
-                                albumId + '" userId = "' + user.username +
+                                album.id + '" userId = "' + user.username +
                                '">' + album.title + '</a>' +
                                "<br>By: " + '<a id = "username" userId = "' +
-                                userId + '">' + user.username + '</a>');
+                                user.id + '">' + user.username + '</a>');
                 
                 //assemble
                 $(photo).prepend('<img id="theImg" src="' + data.url + '.png" />');
@@ -264,7 +264,6 @@
                 display: block;
                 width: 80%;
                 max-width: 600px;
-                text-align: center;
                 color: #ccc;
                 padding: 10px 0;
                 height: 150px;
