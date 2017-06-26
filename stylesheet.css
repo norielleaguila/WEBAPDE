@@ -113,10 +113,13 @@ a:hover{
 .logo{
     margin: 0 auto;
     text-align: center;
-    background-color: bisque;
+    background-color: #ff9898;
     width: 150px;
     height: 150px;
     border-radius: 100px;
+    border-width: 3px;
+    border-style:solid;
+    border-color:#3888a8;
 }
 
 .site-name{
