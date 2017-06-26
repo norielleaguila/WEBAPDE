@@ -36,7 +36,7 @@
                             },
                             success: function(data)
                             {
-                                postPhoto(data[nPhotos - loadA - i]);
+                                generateAlbumInfo(data[nPhotos - loadA - i]);
                             }
                         });
                     })(i, loadA, albumId);
@@ -44,28 +44,93 @@
 
                 loadA += 10;
             }
+            
+            function generateAlbumInfo(data) {
+                (function(data) {
+                    $.ajax({
+                        url: root + '/albums/' + albumId,
+                        method: 'GET',
+                        error: function()
+                        {
+                            //file does not exists
+                            console.log("File does not exist");
+                        },
+                        success: function(album)
+                        {
+                            generateUserInfo(data, album);
+                        }
+                    });
+                })(data);
+            }
+            
+            function generateUserInfo(data, album) {
+                (function(data, album) {
+                    $.ajax({
+                        url: root + '/users/' + userId,
+                        method: 'GET',
+                        error: function()
+                        {
+                            //file does not exists
+                            console.log("File does not exist");
+                        },
+                        success: function(user)
+                        {
+                            postPhoto(data, album, user);
+                        }
+                    });
+                })(data, album);
+            }
 
-            function postPhoto(data){
+            function postPhoto(data, album, user){
 
                 //create elements
                 var photoDisplay = document.createElement("div");
                 var tape         = document.createElement("div");
                 var frame        = document.createElement("div");
                 var photoPreview = document.createElement("div");
+                var modal = document.createElement("div");
+                var close = document.createElement("span");
+                var photo = document.createElement("div");
+                var caption = document.createElement("div");
 
                 //add classes
                 $(photoDisplay).addClass("photo-display");
                 $(tape).addClass("tape");
                 $(frame).addClass("frame");
                 $(photoPreview).addClass("photo-preview");
-
+                $(modal).addClass("modal");
+                $(close).addClass("close");
+                $(photo).addClass("photo");
+                $(caption).addClass("caption");
+                
+                $(close).text("x");
+                $(caption).append("Title: " + data.title +
+                               "<br>Album: " + '<a id="album" albumId="' +
+                                albumId + '" userId = "' + user.username +
+                               '">' + album.title + '</a>' +
+                               "<br>By: " + '<a id = "username" userId = "' +
+                                userId + '">' + user.username + '</a>');
+                
                 //assemble
+                $(photo).prepend('<img id="theImg" src="' + data.url + '.png" />');
+                $(modal).append(close);
+                $(modal).append(photo);
+                $(modal).append(caption);
+                
                 $(photoPreview).prepend('<img id="theImg" src="' + data.thumbnailUrl + '.png" />');
-                $(photoPreview).append("<br>" + data.title);
                 $(photoDisplay).append(tape);
                 $(photoDisplay).append(frame);
                 $(frame).append(photoPreview);
                 $(".feed").append(photoDisplay);
+                $(".feed").append(modal);
+                
+                $(frame).click(function(){
+                    modal.style.display = "block";
+                });
+
+                $(close).click(function(){
+                    modal.style.display = "none";
+                });
             }
 
             $(document).ready(function(){
@@ -85,17 +150,18 @@
             .photo-display{
                 display: inline-block;
                 margin-left:15px;
-                padding-bottom: 15px;
-                transition: all 0.2s ease-in;
-            }
-            
-            .photo-display:hover{
-                transform: scale(1.3);
-                transition: all 0.2s ease-in;
+                padding-bottom: 25px;
             }
             
             .tape{
-                
+                position: absolute;
+                margin-left: 38px;
+                margin-top: -10px;
+/*                background-color: skyblue;*/
+                background-color:#ffd5a3;
+                width: 100px;
+                height: 30px;
+                opacity: 0.7;
             }
 
             .frame{
@@ -104,8 +170,15 @@
                 height: 150px;
                 padding: 10px;
                 padding-bottom: 25px;
-                box-shadow: 3px 3px 5px rgba(118, 68, 31, 0.8);
-/*                box-shadow: 2px 2px 5px rgba(149, 149, 149, 0.53);*/
+                box-shadow: 2px 2px 5px rgba(149, 149, 149, 0.53);
+                transition: all 0.2s ease-in;
+            }
+            
+            .frame:hover{
+                position:relative;
+                transform: scale(1.3);
+                transition: all 0.2s ease-in;
+                z-index: 1;
             }
             
             .photo-preview{
@@ -139,6 +212,66 @@
             
             .album-title{
                 
+            }
+            
+            .modal{
+                display: none; /* Hidden by default */
+                position: fixed; /* Stay in place */
+                z-index: 2; /* Sit on top */
+                padding-top: 2%;
+                left: 0;
+                top: 0;
+                width: 100%; /* Full width */
+                height: 100%; /* Full height */
+                overflow:auto; /* Enable scroll if needed */
+                background-color: rgb(0,0,0); /* Fallback color */
+                background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+            }
+            
+
+            .photo {
+                margin: auto;
+                display: block;
+                width: 80%;
+                max-width: 600px;
+                background-color:antiquewhite;
+            }
+
+            .caption{
+                margin: auto;
+                display: block;
+                width: 80%;
+                max-width: 600px;
+                text-align: center;
+                color: #ccc;
+                padding: 10px 0;
+                height: 150px;
+            }
+
+            .photo, .caption {
+                animation-name: zoom;
+                animation-duration: 0.6s;
+            }
+
+            @keyframes zoom {
+                from {transform:scale(0)}
+                to {transform:scale(1)}
+            }
+
+            .close {
+                position: absolute;
+                top: 15px;
+                right: 35px;
+                color: #f1f1f1;
+                font-size: 40px;
+                font-weight: bold;
+                transition: 0.3s;
+            }
+
+            .close:hover, .close:focus {
+                color: #bbb;
+                text-decoration: none;
+                cursor: pointer;
             }
         
         </style>
