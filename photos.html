@@ -132,6 +132,20 @@
                 });
                 return tmp;
             }();
+			
+			var photos = function () {
+                var tmp = null;
+                $.ajax({
+                    'async': false,
+                    url: root + '/photos/',
+                    method: 'GET',
+                    success: (function(data) {
+                        tmp = data;
+                    }),
+                });
+                return tmp;
+            }();
+			
 			function loadPhotos(){
                 for(i = 1; i <= 10 && max && i < max; i++){
                     (function(i, loadA) {
@@ -239,6 +253,29 @@
                     modal.style.display = "none";
                 });
             }
+			
+			function searchPhotos(toSearch){
+                console.log("SEARCHING....");  
+				
+                for(var i = 0; i < photos.length; i++){
+                    if((photos[i].title).indexOf(toSearch) !== -1){
+                        removePhotos();
+                        generateAlbumInfo(photos[i]);
+                    }
+				}
+            }
+			
+			function removePhotos(){
+                var feed = document.getElementById("feed"); 
+                                
+                while(feed.firstChild != null){
+                    feed.removeChild(feed.firstChild); 
+                }
+                                
+               console.log('FINISHED REMOVING PREVIOUS PHOTOS');
+            }
+			
+			
             $(document).ready(function(){
                 loadPhotos();
                 
@@ -259,6 +296,13 @@
                         loadPhotos();
                     }
                 });
+				
+				$('#searchbox').keypress(function(e){
+					if(e.which == 13){
+						console.log("enter");
+						searchPhotos($('#searchbox').val());
+					} 
+				});
             });
 
             $(document).on('click', '#username', function(){
@@ -272,6 +316,8 @@
                 localStorage.setItem("albumId", $(this).attr("albumId"));
                 window.location.href = "album.html";
             });
+			
+			
         </script>
 
 </head>

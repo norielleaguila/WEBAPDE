@@ -197,11 +197,22 @@
 			
 			function searchPost(toSearch){
                 console.log("SEARCHING....");  
-                for(var i = 0; i < posts.length; i++)
+                for(var i = 0; i < posts.length; i++){
                     if((posts[i].title).indexOf(toSearch) !== -1){
                             removePosts();
                             createPost(posts[i]);
                     }
+				}
+            }
+			
+			function removePosts(){
+                var feed = document.getElementById("feed"); 
+                                
+                while(feed.firstChild != null){
+                    feed.removeChild(feed.firstChild); 
+                }
+                                
+               console.log('FINISHED REMOVING PREVIOUS POSTS');
             }
             
             $(document).ready(function(){
