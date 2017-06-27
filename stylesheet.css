@@ -1,19 +1,33 @@
-
+@font-face{
+    font-family:Raspoutine Classic;
+    src: url('RaspoutineClassic_TB.otf');
+}
 
 @font-face{
     font-family:Bebas Neue;
     src: url('BebasNeue.otf');
 }
 
+@font-face{
+    font-family:Caviar Dreams;
+    src: url('CaviarDreams.ttf');
+}
+
 body{
     background-color:ghostwhite;
-    font-family: Bebas Neue;
-    font-size: 1em;
+/*    font-family: Raspoutine Classic;*/
+    font-family: Caviar Dreams;
+    font-size: 0.9em;
+    font-weight:bold;
+    letter-spacing: 1px;
 }
 
 a{
     color: #ffdada;
     text-decoration: none;
+    font-family: Bebas Neue;
+    letter-spacing: 2px;
+    font-weight: normal;
 }
 
 a:hover{
