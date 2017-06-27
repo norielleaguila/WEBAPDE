@@ -5,7 +5,7 @@
         
         <script src="jquery-3.2.1.min.js"></script>
         <meta name="viewport" content="width=device-width" />
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4217tuYuAr0OEV9tCKW4Ol2DgDsxjueg&callback=myMap"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4217tuYuAr0OEV9tCKW4Ol2DgDsxjueg"></script>
         
         <link rel="stylesheet"
               type = "text/css"
@@ -376,25 +376,33 @@
                 document.getElementById("bs").innerHTML             = temp.company.bs;
 
 
-                var mapCanvas = document.getElementById("googleMap");
+                var mapCanvas = document.createElement("div");
+                mapCanvas.setAttribute('id', 'googleMap');
+
                 var mapOptions = {
                     center: new google.maps.LatLng(temp.address.geo.lat, temp.address.geo.lng),
                     zoom: 5
                 };
+
                 var map = new google.maps.Map(mapCanvas, mapOptions);
 
+                var marker = new google.maps.Marker({
+                                position: new google.maps.LatLng(temp.address.geo.lat, temp.address.geo.lng),
+                                map: map
+                             });
+
                 $("#address").mouseover(function(){
-                    document.getElementById("googleMap").style.display = "block";
+                    mapCanvas.style.display = "block";
                 });
 
-                $("#googleMap").mouseover(function(){
-                    document.getElementById("googleMap").style.display = "block";
+                $(mapCanvas).mouseover(function(){
+                    mapCanvas.style.display = "block";
                 });
 
-                $("#googleMap").mouseout(function(){
-                    document.getElementById("googleMap").style.display = "none";
+                $(mapCanvas).mouseout(function(){
+                    mapCanvas.style.display = "none";
                 });
-
+                document.getElementById("address").append(mapCanvas);
             }
 
             $(document).ready(function(){
@@ -511,7 +519,6 @@
                             <p id = "phone"> </p>
                             <p id = "email"> </p>
                             <p id = "address"> </p>
-                            <div id="googleMap" style="width:400px;height:300px;"></div>
 
                         </div>
                         
