@@ -1,7 +1,14 @@
+
+
+@font-face{
+    font-family:Bebas Neue;
+    src: url('BebasNeue.otf');
+}
+
 body{
     background-color:ghostwhite;
-    font-family: "Tahoma", sans-serif;
-    font-size: 0.9em;
+    font-family: Bebas Neue;
+    font-size: 1em;
 }
 
 a{
@@ -130,13 +137,4 @@ a:hover{
 .site-name p{
     font-size: 1.5em;
     color:#583728;
-}
-
-@font-face{
-    font-family:bebas-neue;
-    src: url(BebasNeue.otf);
-}
-
-body{
-    font-family: bebas-nueue, sans-serif;
 }
