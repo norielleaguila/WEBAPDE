@@ -99,6 +99,19 @@
                 });
                 return tmp;
             }();
+			
+			var posts = function () {
+                var tmp = null;
+                $.ajax({
+                    'async': false,
+                    url: root + '/posts/',
+                    method: 'GET',
+                    success: (function(data) {
+                        tmp = data;
+                    }),
+                });
+                return tmp;
+            }();
 
 			function loadPosts(){
                 console.log(loaded + " SA " + max);
@@ -181,6 +194,15 @@
                 
                 console.log("hh");
             }
+			
+			function searchPost(toSearch){
+                console.log("SEARCHING....");  
+                for(var i = 0; i < posts.length; i++)
+                    if((posts[i].title).indexOf(toSearch) !== -1){
+                            removePosts();
+                            createPost(posts[i]);
+                    }
+            }
             
             $(document).ready(function(){
                 loadPosts();
@@ -202,6 +224,12 @@
                     window.location.href = "profile.html";
                 });
                 
+				$('#searchbox').keypress(function(e){
+                    if(e.which == 13){
+                        searchPost($('#searchbox').val());
+                    } 
+                });
+				
             })
             
         </script>
