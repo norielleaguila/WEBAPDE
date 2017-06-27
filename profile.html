@@ -7,6 +7,15 @@
         <meta name="viewport" content="width=device-width" />
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4217tuYuAr0OEV9tCKW4Ol2DgDsxjueg"></script>
         
+        <!--Import Google Icon Font-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!--Import materialize.css-->
+        <link type="text/css" rel="stylesheet" href="materialize-side-nav.css"  media="screen,projection"/>
+
+        <!--Import jQuery before materialize.js-->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="materialize.min.js"></script>
+	    
         <link rel="stylesheet"
               type = "text/css"
               href="stylesheet.css">
@@ -406,6 +415,27 @@
             }
 
             $(document).ready(function(){
+		    
+                // Initialize collapse button
+                $(".button-collapse").sideNav();
+
+                $('.button-collapse').sideNav({
+                    menuWidth: 300, // Default is 300
+                    closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+                    draggable: true, // Choose whether you can drag to open on touch screens,
+                    }
+                );
+                var width =  screen.width;
+
+                if(width > 1200){
+                    var a = document.getElementsByClassName("material-icons");
+
+                    for (var i = 0; i < a.length; ++i) {
+                        var item = a[i];
+                        item.style.display = "none";
+                    }
+                }
+		    
                 $.ajax({
                     url: root + '/users/' + userId,
                     method: 'GET',
@@ -414,6 +444,7 @@
                         console.log("Updated user's info");
                     }
                 });
+                document.getElementById("uName").innerHTML = localStorage.getItem("username");
                 document.getElementById("username").innerHTML = localStorage.getItem("username");
 
                 loadPosts();
@@ -442,6 +473,13 @@
 
                 $(document).on('click', '#username', function(){
                     window.location.href = "profile.html";
+                });
+	    	$(document).on('click', '#uPost', function(){
+                    document.getElementById("feed").style.display = "inline-block";
+                });
+
+                $(document).on('click', '#uPhotos', function(){
+                    document.getElementById("feed").style.display = "none";
                 });
             })
 
@@ -475,6 +513,21 @@
     
     <body>
         
+        <ul id="slide-out" class="side-nav">
+            <li><div class="user-view">
+                <div class="background" style="background: rgba(189, 106, 27, 0.84);">
+                </div>
+                <a href="#!user"><img class="circle" src="media/icon.png"></a>
+                <a href="#!name"><span class="white-text name" id = "uName">John Doe</span></a>
+            </div></li>
+            <li><a href="#!"><i class="fa fa-edit" aria-hidden="true" id = "uPost"></i>User's Posts</a></li>
+            <li><a href="#!"><i class="fa fa-picture-o" aria-hidden="true" id = "uPhotos"></i>User's Photos</a></li>
+
+            <li><div class="divider"></div></li>
+        </ul>
+
+        <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+	    
         <nav>
         
             <div class = "page-mark" id = "posts">
