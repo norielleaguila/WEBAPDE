@@ -34,7 +34,6 @@ html{
 .modal{
 }
 .page-mark{
-    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
@@ -45,6 +44,7 @@ html{
     color: dimgrey;
     text-align:center;
     transition: all 0.3s ease-in;
+    float: left;
 }
 
 #posts{
