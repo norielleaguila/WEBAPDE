@@ -84,67 +84,55 @@
         </style>
         
         <script>
-        
+		
             var loaded = 0;
             var root = 'https://jsonplaceholder.typicode.com';
-            var max = function () {
-                var tmp = null;
+			var posts;
+            var stop = false;
+            
+			function getAllPosts(){
+//                var tmp = null;
+				
                 $.ajax({
-                    'async': false,
+                    //'async': false,
                     url: root + '/posts/',
                     method: 'GET',
                     success: (function(data) {
-                        tmp = data.length;
+//                        tmp = data;
+                        console.log("LOOB NG AJAX: " +data);
+                        initializePosts(data);
                     }),
                 });
-                return tmp;
-            }();
-			
-			var posts = function () {
-                var tmp = null;
-                $.ajax({
-                    'async': false,
-                    url: root + '/posts/',
-                    method: 'GET',
-                    success: (function(data) {
-                        tmp = data;
-                    }),
-                });
-                return tmp;
-            }();
-
+                
+            }
+        
+            function initializePosts(data){
+                posts = data;
+                console.log("LOOB NG INITIALIZE: " +posts);
+            }
+            
 			function loadPosts(){
-                console.log(loaded + " SA " + max);
-                //"max == 0" di ko na magawang maalis to jaskdkjkd pero naalis ko siya before,
+                console.log(loaded + " SA " + posts.length);
+                
 //                for(i = 1; i <= 10 && max && i < max; i++){
-                for(i = 0; i < 10 && i < max; i++){
-                    (function(i, loaded) {
-                        $.ajax({
-                            url: root + '/posts/' + (max-loaded-i),
-                            method: 'GET',
-    //                        async: false,
-                            error: function()
-                            {
-                                //file does not exists
-                                console.log("File does not exist");
-                            },
-                            success: function(data)
-                            {
-                                console.log("LOAD POST: " +(max-loaded-i));
-                                createPost(data);
-                            }
-                        });
-                    })(i, loaded);
+                for(i = 0; i < 10 && i < posts.length; i++){
+			if(posts.length-loaded-i-1 > 0)
+	                    createPost(posts[posts.length-loaded-i-1]);
                 }
+                
                 loaded += 10;
 
-                if(loaded == max)
+                if(loaded == posts.length)
                     console.log("SHOW SOMETHING");
+                
+                stop = true;
             }
+            
              
             function createPost(data){
+                console.log("DATA USER ID: " + data.userId);
                 $.ajax(root + '/users/' + data.userId, {
-                    method: 'GET'
+                    method: 'GET',
                 }).then(function(temp){
                     postItem(data, temp);
                 });
@@ -216,14 +204,20 @@
             }
             
             $(document).ready(function(){
-                loadPosts();
+                getAllPosts();
+                $(document).ajaxStop(function(){
+                    if(!stop){
+                        loadPosts();
+                    }
+                });
+//                loadPosts();
 
                 $(".feed").scroll(function() {
                     var div = $(this);
                     var scroll = 0;
-                    if (Math.round($(this).scrollTop()) == $(".feed")[0].scrollHeight - 600) { //scrollTop is 0 based
-                        console.log("Load more!");
-
+			
+                    if( Math.round($(this).scrollTop()) == ($(".feed")[0].scrollHeight - $(".feed")[0].offsetHeight)){                        console.log("Load more!");
+                        stop = false;
                         loadPosts();
                     }
                 });

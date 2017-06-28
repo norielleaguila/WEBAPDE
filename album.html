@@ -113,12 +113,12 @@
                                 user.id + '">' + user.username + '</a>');
                 
                 //assemble
-                $(photo).prepend('<img id="theImg" src="' + data.url + '.png" />');
+                $(photo).prepend('<img id="theImg" src="' +  data.url.slice(0, 4) + "s" + data.url.slice(4, data.url.length) + '.png" />');
                 $(modal).append(close);
                 $(modal).append(photo);
                 $(modal).append(caption);
                 
-                $(photoPreview).prepend('<img id="theImg" src="' + data.thumbnailUrl + '.png" />');
+                $(photoPreview).prepend('<img id="theImg" src="' + data.thumbnailUrl.slice(0, 4) + "s" + data.thumbnailUrl.slice(4, data.thumbnailUrl.length) + '.png" />');
                 $(photoDisplay).append(tape);
                 $(photoDisplay).append(frame);
                 $(frame).append(photoPreview);
@@ -146,7 +146,7 @@
                         scroll = div.scrollTop();
                     }, 200);
                     console.log(scroll);*/
-                    if (Math.round($(this).scrollTop()) == $(".feed")[0].scrollHeight - 600) { //scrollTop is 0 based
+                    if( Math.round($(this).scrollTop()) == ($(".feed")[0].scrollHeight - $(".feed")[0].offsetHeight)) { //scrollTop is 0 based
                         console.log("Load more!");
 
                         loadPhotos();
@@ -205,7 +205,7 @@
                 width: 150px;
                 height: 150px;
                 background-color: blanchedalmond;
-                background-image: url("http://placehold.it/150/771796");
+                background-image: url("https://placehold.it/150/771796");
             }
             
             .user-info{

@@ -48,8 +48,8 @@ a:hover{
     position: fixed;
     right: 13%;
     top: 30px;
-    width: 400px;
-    height: 500px;
+    width: 27%;
+    height: 79%;
     padding: 50px;
     background-color:#eeeeee;
     border-top-right-radius: 10px;
@@ -62,7 +62,7 @@ a:hover{
 .page-mark{
     position: fixed;
     margin: 0 auto;
-    width: 100px;
+    width: 7%;
     height: 30px;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
@@ -129,6 +129,7 @@ a:hover{
 .page-mark a{
     color: dimgrey;
     font-size: 0.6em;
+	margin-right: 5%;
 }
             
 .logo{
